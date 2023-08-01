@@ -32,6 +32,12 @@ class AlienInvasion:
             bullet.draw_bullet()
         pygame.display.flip()
 
+    def update_bullets(self):
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+        print(len(self.bullets))
+
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -66,8 +72,9 @@ class AlienInvasion:
             self.ship.moving_down = False
 
     def fire_bullet(self):
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
 
 if __name__ == '__main__':
